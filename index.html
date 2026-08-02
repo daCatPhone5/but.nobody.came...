@@ -1,138 +1,15 @@
-<!--<div id='play'><iframe src="./play/"></iframe></div>-->
-
+<!doctype html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="theme-color" content="#000000">
-    <title>myTeardrop</title>
-    <meta content="myTeardrop" property="og:title" />
-    <meta content="Take care of your very own Teardrop!" property="og:description" />
-    <link rel="icon" type="image/x-icon" href="favicon.png">
-    <meta content="#4291ff" property="theme-color" />
-    <link rel="manifest" href="manifest.json" />
-    <title>myTeardrop</title>
-    <style>
-        @font-face {
-            font-family: Indie Flower;
-            src: url(./IndieFlower-Regular.ttf);
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>myTeardrop - Game</title>
 </head>
-<html>
-
-<body style="display: none;">
-    <div id="clouds"></div>
-    <div id="contentArea">
-        <div id="play"><iframe id="playFrame" src="./idle/"></iframe>
-            <div id="fullscreen" class="displayOnHover"></div>
-            <div id="runGame"><img src="./images/runGame.png"></div>
-        </div>
-        <div id="belowScreen"></div>
-        <img id="logo" src="./images/Logo.png">
-        <div style="padding:10%;padding-top: 30px;padding-bottom: 30px;">
-            <p style="font-size: 24px;">Take care of your awesome little Teardrop. You could also just feed her lemons for her entire life! All that matters is that you're now Teardrop's best friend.</p>
-        </div>
-
-        <div style="width: 100%;display: -webkit-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-    
-        justify-content: center;
-        align-items: center;">
-            <div class="button" onclick="window.open(`https://x.com/vendormint`)"><img src="./images/Buttons0003.png"></div>
-            <div class="button" onclick="window.open(`https://discord.gg/QNFcdJCjVp`)"><img
-                    src="./images/Buttons0002.png"></div>
-        </div>
-        <div id="screenshots"><div id="screenshotsItems"></div></div>
-        <div style="height: 80px;"></div>
-    </div>
+<body>
+  <!-- Root now redirects straight to the playable game page so the site only shows the game -->
+  <script>
+    // Use replace() so browser history doesn't keep the redirect page
+    window.location.replace('./play/index.html');
+  </script>
 </body>
-
 </html>
-<script>
-    let screenshots = document.getElementById("screenshotsItems");
-    for (let i = 0; i < 11; i++) {
-        screenshots.appendChild((function(img=document.createElement("img")){
-            img.src = "screenshots/screenshot" + i + ".png";
-            return img;
-        })());
-    };
-    /*const registerServiceWorker = async () => {
-        if ("serviceWorker" in navigator) {
-            try {
-                const registration = await navigator.serviceWorker.register("./sw_website.js", {
-                    scope: "./",
-                });
-            } catch (e) {
-                console.log('Service Worker installation failed');
-            }
-        }
-    };
-    registerServiceWorker();*/
-    let playing = false;
-    let playFrame = document.getElementById('playFrame');
-    let play = document.getElementById('play');
-    let playGame = function () {
-        fullButton.style.display = `block`;
-        playFrame.style.pointerEvents = 'auto';
-        if (playing) return;
-        playing = true;
-        playFrame.src = './play/index.html';
-    };
-    let fullscreen = false;
-    let fullButton = document.getElementById('fullscreen');
-
-    let runGame = document.getElementById('runGame');
-    setTimeout(function () {
-        runGame.getElementsByTagName('img')[0].style.transition = `transform .4s cubic-bezier(0.175, 0.885, 0.320, 1.275)`;
-    }, 200);
-    runGame.onclick = function () {
-        runGame.style.display = 'none',
-            play.style.display = 'block',
-            playGame();
-        if (isMobile) {
-            document.body.classList.add('disablescroll');
-            window.scrollTo(0, 0);
-        };
-    };
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile) {
-        document.getElementById('belowScreen').appendChild(runGame);
-        document.head.innerHTML += `<link rel="stylesheet" href="bfdi_mobile.css">`;
-        play.style.display = 'none';
-        let full = true;
-        play.classList.add('fullscreenFrame');
-        play.style.position = `fixed`;
-        fullButton.onclick = function () {
-            full = !full;
-            if (full) {
-                play.style.position = `fixed`;
-                document.body.classList.add('disablescroll');
-                play.classList.add('fullscreenFrame');
-            } else {
-                play.style.position = `relative`;
-                document.body.classList.remove('disablescroll');
-                play.classList.remove('fullscreenFrame');
-            }
-        };
-    } else {
-        fullButton.style.display = `none`;
-        document.head.innerHTML += `<link rel="stylesheet" href="bfdi.css">`;
-        fullButton.onclick = function (e) {
-            if ((/iPad/i.test(navigator.userAgent) || "ontouchstart" in document.documentElement) && localStorage.alerted != 'yes') {
-                localStorage.alerted = 'yes';
-                alert(`Looks like you're likely playing on an iPad. Safari in iPadOS has an annoying issue where if you tap the bottom half of the screen couple times when you're playing the game it gives you a constant warning message about keyboards. It is recommended to add the game to the home screen instead for a good fullscreen experience`)
-            };
-            let element = playFrame;
-            if (element.webkitEnterFullScreen) {
-                element.webkitEnterFullScreen();
-            };
-            if (element.requestFullscreen) {
-                element.requestFullscreen();
-            };
-        };
-    };
-    window.onload = function () {
-        document.body.style.display = 'block';
-    }
-</script>
